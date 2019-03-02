@@ -2,5 +2,160 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "blackbox-app": {
+      "root": "projects/blackbox-app/",
+      "sourceRoot": "projects/blackbox-app/src",
+      "projectType": "application",
+      "prefix": "bl",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/blackbox-app",
+            "index": "projects/blackbox-app/src/index.html",
+            "main": "projects/blackbox-app/src/main.ts",
+            "polyfills": "projects/blackbox-app/src/polyfills.ts",
+            "tsConfig": "projects/blackbox-app/tsconfig.app.json",
+            "assets": [
+              "projects/blackbox-app/src/favicon.ico",
+              "projects/blackbox-app/src/assets"
+            ],
+            "styles": ["projects/blackbox-app/src/styles.css"],
+            "scripts": [],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/blackbox-app/src/environments/environment.ts",
+                  "with": "projects/blackbox-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "blackbox-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "blackbox-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "blackbox-app:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/blackbox-app/src/test.ts",
+            "polyfills": "projects/blackbox-app/src/polyfills.ts",
+            "tsConfig": "projects/blackbox-app/tsconfig.spec.json",
+            "karmaConfig": "projects/blackbox-app/karma.conf.js",
+            "styles": ["projects/blackbox-app/src/styles.css"],
+            "scripts": [],
+            "assets": [
+              "projects/blackbox-app/src/favicon.ico",
+              "projects/blackbox-app/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/blackbox-app/tsconfig.app.json",
+              "projects/blackbox-app/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "blackbox-app-e2e": {
+      "root": "projects/blackbox-app-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/blackbox-app-e2e/protractor.conf.js",
+            "devServerTarget": "blackbox-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "blackbox-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/blackbox-app-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "header-lib": {
+      "root": "projects/header-lib",
+      "sourceRoot": "projects/header-lib/src",
+      "projectType": "library",
+      "prefix": "bl",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/header-lib/tsconfig.lib.json",
+            "project": "projects/header-lib/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/header-lib/src/test.ts",
+            "tsConfig": "projects/header-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/header-lib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/header-lib/tsconfig.lib.json",
+              "projects/header-lib/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "blackbox-app"
 }
